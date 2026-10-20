@@ -1,0 +1,24 @@
+name: offline-demo
+version: 1
+description: Same shape as api-to-csv but against the bundled mock server (no internet needed). Run via `npm run demo:offline`.
+
+steps:
+  - id: fetch-users
+    type: http
+    url: http://127.0.0.1:4010/users
+
+  - id: shape
+    type: transform
+    input: fetch-users
+    where:
+      - { field: active, op: eq, value: true }
+    select:
+      name: name
+      email: email
+      company: { from: company.name, default: "(none)" }
+      city: address.city
+
+  - id: export
+    type: csv
+    input: shape
+    output: ./output/offline-users.csv

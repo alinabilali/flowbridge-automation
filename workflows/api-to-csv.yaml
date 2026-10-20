@@ -1,0 +1,26 @@
+name: api-to-csv
+version: 1
+description: Fetch users from a public demo API and export selected (nested) fields to CSV and JSON.
+
+steps:
+  - id: fetch-users
+    type: http
+    method: GET
+    url: https://jsonplaceholder.typicode.com/users
+
+  - id: export-users
+    type: csv
+    input: fetch-users
+    output: ./output/users.csv
+    fields:
+      - name
+      - email
+      - company.name
+
+  - id: export-users-json
+    type: json
+    input: fetch-users
+    output: ./output/users.json
+    fields:
+      - { path: name, header: name }
+      - { path: address.city, header: city }

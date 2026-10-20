@@ -1,0 +1,7 @@
+node_modules/
+dist/
+output/
+.flowbridge/
+.env
+*.db
+.DS_Store

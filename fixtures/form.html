@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FlowBridge test form</title>
+</head>
+<body>
+  <h1>Sign-up (test fixture)</h1>
+  <form id="form">
+    <label>Name <input id="name" name="name" required></label><br>
+    <label>Email <input id="email" name="email" type="email" required></label><br>
+    <label>Plan
+      <select id="plan" name="plan"><option value="free">Free</option><option value="pro">Pro</option></select>
+    </label><br>
+    <label><input id="terms" type="checkbox" required> I agree</label><br>
+    <button id="submit" type="submit">Submit</button>
+  </form>
+  <section id="confirmation" hidden>
+    <p id="confirmation-message"></p>
+    <p>Confirmation: <code id="confirmation-id"></code></p>
+  </section>
+  <script>
+    // No network: the "server response" is simulated locally and deterministic.
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = document.getElementById("name").value;
+      var plan = document.getElementById("plan").value;
+      var sum = 0;
+      for (var i = 0; i < name.length; i++) sum += name.charCodeAt(i);
+      document.getElementById("confirmation-id").textContent = "FB-" + (sum * 7).toString(36).toUpperCase();
+      document.getElementById("confirmation-message").textContent = "Thanks " + name + ", your " + plan + " plan is active.";
+      document.getElementById("confirmation").hidden = false;
+    });
+  </script>
+</body>
+</html>

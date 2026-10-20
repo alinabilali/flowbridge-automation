@@ -1,0 +1,51 @@
+name: api-to-sqlite-report
+version: 1
+description: Combine two API endpoints, store them in SQLite, and produce a summary report.
+
+steps:
+  - id: fetch-users
+    type: http
+    url: https://jsonplaceholder.typicode.com/users
+
+  - id: fetch-posts
+    type: http
+    url: https://jsonplaceholder.typicode.com/posts
+
+  - id: store-users
+    type: sqlite-insert
+    input: fetch-users
+    database: ./output/flowbridge-demo.db
+    table: users
+    onConflict: replace
+    onInvalid: skip
+    columns:
+      id:      { type: INTEGER, primaryKey: true }
+      name:    { type: TEXT, required: true }
+      email:   { type: TEXT }
+      city:    { type: TEXT, from: address.city }
+      company: { type: TEXT, from: company.name }
+
+  - id: store-posts
+    type: sqlite-insert
+    input: fetch-posts
+    database: ./output/flowbridge-demo.db
+    table: posts
+    onConflict: replace
+    onInvalid: skip
+    columns:
+      id:      { type: INTEGER, primaryKey: true }
+      user_id: { type: INTEGER, from: userId, required: true }
+      title:   { type: TEXT }
+
+  - id: posts-per-user
+    type: sqlite-query
+    database: ./output/flowbridge-demo.db
+    sql: >
+      SELECT u.name AS author, u.company, COUNT(p.id) AS posts
+      FROM users u LEFT JOIN posts p ON p.user_id = u.id
+      GROUP BY u.id ORDER BY posts DESC, author ASC
+
+  - id: report-csv
+    type: csv
+    input: posts-per-user
+    output: ./output/posts-per-user.csv

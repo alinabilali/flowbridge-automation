@@ -1,0 +1,23 @@
+name: browser-form
+version: 1
+description: Fill in and submit a local test form with Playwright, then extract the confirmation.
+# Requires the optional browser setup: see docs in README ("Browser automation").
+
+steps:
+  - id: submit-form
+    type: browser
+    file: ./fixtures/form.html
+    actions:
+      - { action: fill,    selector: "#name",    value: "Ada Lovelace" }
+      - { action: fill,    selector: "#email",   value: "ada@example.com" }
+      - { action: select,  selector: "#plan",    value: "pro" }
+      - { action: check,   selector: "#terms" }
+      - { action: click,   selector: "#submit" }
+      - { action: waitFor, selector: "#confirmation:not([hidden])" }
+      - { action: extract, selector: "#confirmation-id", name: confirmation }
+      - { action: extract, selector: "#confirmation-message", name: message }
+
+  - id: save-result
+    type: json
+    input: submit-form
+    output: ./output/browser-result.json

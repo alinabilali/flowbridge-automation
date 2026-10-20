@@ -1,0 +1,7 @@
+[
+  { "id": 1, "name": "Ada Example", "email": "ada@example.com", "active": true, "address": { "city": "Springfield" }, "company": { "name": "Analytical Engines Ltd" } },
+  { "id": 2, "name": "Grace Sample", "email": "grace@example.org", "active": true, "address": { "city": "Shelbyville" }, "company": { "name": "Compiler Co" } },
+  { "id": 3, "name": "Linus Demo", "email": "linus@example.net", "active": false, "address": { "city": "Capital City" }, "company": { "name": "Kernel Works" } },
+  { "id": 4, "name": "=Formula Person", "email": "formula@example.com", "active": true, "address": { "city": "Ogdenville" } },
+  { "id": 5, "name": "Margaret Test", "email": "margaret@example.com", "active": true, "address": { "city": "North Haverbrook" }, "company": { "name": "Apollo Software, Inc." } }
+]
