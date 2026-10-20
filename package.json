@@ -1,5 +1,5 @@
 {
-  "name": "flowbridge",
+  "name": "flowbridge-automation",
   "version": "0.1.0",
   "description": "Configurable automation toolkit for APIs, data processing, and browser tasks",
   "scripts": {
